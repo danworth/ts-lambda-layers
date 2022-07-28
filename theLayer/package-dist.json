@@ -1,0 +1,7 @@
+{
+  "name": "theLayer",
+  "version": "1.0.0",
+  "description": "Simple typescript module to use for a layer example",
+  "license": "ISC",
+  "main": "./index.js"
+}

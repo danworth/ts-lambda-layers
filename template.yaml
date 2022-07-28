@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >-
+  Simple example for typescript using a layer
+Transform:
+  - AWS::Serverless-2016-10-31
+Resources:
+  TheLambda:
+    # checkov:skip=CKV_AWS_116:This function is invoked by an API Gateway, a DLQ will offer no value
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/index.ts
+        External:
+          - theLayer
+    Properties:
+      CodeUri: theLambda
+      Handler: src/index.handler
+      Runtime: nodejs16.x
+      Layers:
+        - !Ref TheLayer
+
+  TheLayer:
+    Type: AWS::Serverless::LayerVersion
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      CompatibleRuntimes:
+        - nodejs16.x
+      ContentUri: 'theLayer'
+
+Outputs:
+  TheLambdaName:
+    Value: !GetAtt TheLambda.Arn

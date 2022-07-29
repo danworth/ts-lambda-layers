@@ -5,7 +5,6 @@ Transform:
   - AWS::Serverless-2016-10-31
 Resources:
   TheLambda:
-    # checkov:skip=CKV_AWS_116:This function is invoked by an API Gateway, a DLQ will offer no value
     Type: AWS::Serverless::Function
     Metadata:
       BuildMethod: esbuild
